@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose your Date</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f4e8e8;
+            background-image: linear-gradient(90deg, rgba(249, 209, 209, 0.189) 10%, transparent 0),
+                          linear-gradient(rgba(249, 212, 212, 0.298) 10%, transparent 0);
+            background-size: 30px 30px;
+            place-items: center;
+            padding: 80px;
+        }
+
+        .text {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 25vh;
+            margin: 0;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 5vw;
+            color: #9a8f8f
+            }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 50px;
+            justify-content: space-evenly;
+            justify-items: center;
+            align-content: space-evenly;
+            align-items: center;
+            place-items: center;
+            margin-top: 50px;
+            height: 80vh;
+          }
+
+        .cell {
+            height: 100%;
+            aspect-ratio: 1/1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: 2px solid transparent; /* Transparent border initially */
+            box-sizing: border-box;
+            transition: border 0.5s ease-in-out; /* Smooth transition for border change */
+        }
+        img:active {
+          visibility: visible;
+            transition-delay: 0.01s;
+            display: block;
+        }
+
+        #stopButton {
+            border: 2px solid rgb(172, 171, 171);
+			padding: 10px 10px;
+			font-size: 18px;
+			background-color: #fbf5ee;
+			cursor: pointer;
+			margin: 5px 0px;
+            box-shadow: 4px 4px 0 rgb(194, 192, 192);
+			font-family: 'Times New Roman', Times, serif;
+            margin-bottom:50px;
+            margin-top: 70px;
+            color: #717070;
+            justify-content: center;
+            align-items: center;
+           
+        }
+        .center {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+        #reserveButton {
+            border: 2px solid rgb(172, 171, 171);
+			padding: 13px;
+            width: 100%;
+            text-align: left;
+            margin: 0 auto;
+			font-size: 25px;
+			background-color: #fbf5ee;
+			cursor: pointer;
+			margin: 5px 0px;
+            box-shadow: 4px 4px 0 rgb(194, 192, 192);
+			font-family: 'Times New Roman', Times, serif;
+            margin-bottom:50px;
+            color: #717070;
+            justify-content: center;
+            align-items: center;
+            padding-left: 10px;
+         
+        }
+        button:hover {
+			box-shadow: 6px 6px 0 black;
+			transform: translate(-2px, -2px);
+		}
+		button:active {
+			box-shadow: 0px 0px 0 black;
+			transform: translate(2px, 2px);
+		}
+        #secondButton {
+            border: 2px solid rgb(172, 171, 171);
+			padding: 13px;
+            width: 100%;
+            text-align: left;
+            margin: 0 auto;
+			font-size: 25px;
+			background-color: #fbf5ee;
+			cursor: pointer;
+			margin: 5px 0px;
+            box-shadow: 4px 4px 0 rgb(194, 192, 192);
+			font-family: 'Times New Roman', Times, serif;
+            margin-bottom:50px;
+            color: #717070;
+            justify-content: center;
+            align-items: center;
+            padding-left: 10px;
+             
+
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="text">♡̈Romance<span style="color: #c2aac0">Randomizer </span> ♡̈</h1>
+    <div class="container">  </div>
+    <div class="center">
+        <button id="stopButton" onclick="stopGrid()"> "What will it be?"</button>
+        <button id="reserveButton" onclick="alert_phrase()">Reservation Assistance Service</button>
+        <button id="secondButton"  onclick="welcomeMsg()">Learn More...</button>
+    </div>
+    <script>
+        const grid = document.getElementsByClassName('container')[0];
+        const stopButton = document.getElementById('stopButton');
+        let chosen_activity = 0
+        let random_image_id = 0
+        let isStopped = false;
+
+        // Array of picture URLs
+        const pictures = [
+            'assets/1.jpeg', 'assets/2.jpeg', 'assets/3.jpeg',
+            'assets/4.jpeg', 'assets/5.jpeg', 'assets/6.jpeg',
+            'assets/7.jpeg', 'assets/8.jpeg', 'assets/9.jpeg',
+            'assets/10.jpeg', 'assets/11.jpeg', 'assets/12.jpeg',
+            'assets/13.jpeg', 'assets/14.jpeg', 'assets/15.jpeg',
+            'assets/16.jpeg', 'assets/17.jpeg', 'assets/18.jpeg',
+            'assets/19.jpeg', 'assets/20.jpeg', 'assets/21.jpeg',
+            'assets/22.jpeg', 'assets/23.jpeg', 'assets/24.jpeg',
+            'assets/25.jpeg', 'assets/26.jpeg', 'assets/27.jpeg',
+            'assets/28.jpeg', 'assets/29.jpeg', 'assets/30.jpeg',
+            'assets/31.jpeg', 'assets/32.jpeg', 'assets/33.jpeg',
+            'assets/34.jpeg', 'assets/35.jpeg', 'assets/36.jpeg',
+            'assets/37.jpeg', 'assets/38.jpeg', 'assets/39.jpeg',
+            'assets/40.jpeg', 'assets/41.jpeg', 'assets/42.jpeg',
+            'assets/43.jpeg', 'assets/44.jpeg', 'assets/45.jpeg',
+            'assets/46.jpeg', 'assets/47.jpeg', 'assets/48.jpeg',
+            'assets/49.jpeg', 'assets/50.jpeg', 'assets/51.jpeg',
+            'assets/52.jpeg', 'assets/53.jpeg', 'assets/54.jpeg',
+            'assets/55.jpeg', 'assets/56.jpeg', 'assets/57.jpeg',
+            'assets/58.jpeg', 'assets/59.jpeg', 'assets/60.jpeg',
+
+            // Add more image URLs as needed
+        ];
+        const pictures_title = [
+            'Making ceramics',
+            'Exhibition',
+            'Game day', 'Tennis', 'Cooking Class',
+            'Outside in snow', 'Baking', 'With sunset', 'Reading',
+            'Golf', 'Picnic', 'Camping', 'Lantern festival',
+            'Aquarium', 'Movie day', 'Painting', 'Arcade',
+            'On the beach', 'Lantern festival', 'Stargazing', 'Restaurant',
+            'Puzzle', 'In the beautiful garden', 'Watching sports game', 'Amusement park',
+            'Lego', 'Painting', 'Travel', 'See the concert',
+            'Bowling', 'Netflix day', 'Bicycle riding', 'Campfire',
+            'Fast healing', 'Drawing', 'Hiking', 'Observatory',
+            'Fishing', 'Hiking', 'Zoo', 'Bowlingl',
+            'Coffee break', 'Learning ceramic', 'Bicycle riding', 'Billiards',
+            'Ice skating', 'Swimming', 'Fishing', 'Library date',
+            'See the concert', 'Fastfood day', 'Movie night', 'Activity',
+            'Car camping', 'Roller skating', 'Go skiing', 'Playing',
+            'A ferris wheel', 'Picnic', 'Date at home',
+        ]
+        function alert_phrase(){
+            var myElement = document.getElementById(random_image_id);
+            var title = myElement.querySelector("img").title;
+            var value = `Sorry, reservation for "${title}" is full`
+            alert(value);
+        }
+        function welcomeMsg(){
+            var value = `Welcome!`
+            alert(value);
+        }
+        
+        // Function to create and initialize the grid
+        function initializeGrid() {
+            for (let i = 0; i < 16; i++) {
+                const cell = document.createElement('div');
+                cell.id = i;
+                cell.classList.add('cell');
+                const img = document.createElement('img');
+                random_image_id = Math.floor(Math.random() * pictures.length)
+                img.src = pictures[random_image_id];
+                img.title = pictures_title[random_image_id]
+                cell.appendChild(img);
+                grid.appendChild(cell);
+            }
+        }
+
+        function randomImage() {
+            if (isStopped == false){
+                const images = document.querySelectorAll('div');
+                images.forEach(img => {
+                    img.style.outline = '0px solid grey'; // Highlight the selected image with a thicker border
+                });
+                random_image_id = Math.floor(Math.random() * 16)
+              const image = document.getElementById(random_image_id);
+              image.style.outline = '6px solid #4F4F4F'
+              chosen_activity = random_image_id
+            }
+        }
+
+        // Function to stop the grid
+        function stopGrid() {
+            isStopped = true;
+            // Remove animation class to stop the animation
+            const images = document.querySelectorAll('div');
+            images.forEach(img => {
+                img.classList.remove('animate-border');
+                // img.style.border = '1px solid black'; // Highlight the selected image with a thicker border
+            });
+            const img = document.getElementById(random_image_id);
+            img.style.outline = '6px solid #2C2C2C'
+        }
+
+        // Initialize the grid
+        initializeGrid();
+        setInterval(randomImage, 200);
+    </script>
+</body>
+</html>
